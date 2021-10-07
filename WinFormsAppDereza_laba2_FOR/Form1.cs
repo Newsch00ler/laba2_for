@@ -15,16 +15,26 @@ namespace WinFormsAppDereza_laba2_FOR
         public Form1()
         {
             InitializeComponent();
-            //textMarks.Text = Properties.Settings.Default.array.ToString();
+            textMarks.Text = Properties.Settings.Default.str.ToString();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
+            string str = textMarks.Text;
+            int[] array;
 
-            int[] array = textMarks.Text.Split(new[] {' '}, StringSplitOptions.RemoveEmptyEntries).Select(n => int.Parse(n.Trim())).ToArray();
+            try
+            {
+                array = textMarks.Text.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Select(n => int.Parse(n.Trim())).ToArray();
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("Некорректный ввод", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
-            /*Properties.Settings.Default.array = array;
-            Properties.Settings.Default.Save();*/
+            Properties.Settings.Default.str = str;
+            Properties.Settings.Default.Save();
 
             var r = Logic.CountAll(array);
             MessageBox.Show($"Пятёрок: {r.five}, Четвёрок: {r.four}, Троек: {r.three}, Двоек: {r.two}.");
